@@ -1,0 +1,50 @@
+server:
+  port: 8084
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  config:
+    activate:
+      on-profile: default
+  application:
+    name: orders
+  datasource:
+    url: jdbc:mysql://${order-db:localhost}:3309/order-db
+    username: root
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: update
+  cloud:
+    stream:
+      bindings:
+        orders:
+          content-type: application/avro
+          destination: orders
+          consumer:
+            useNativeDecoding: true
+      kafka:
+        binder:
+          auto-create-topics: false
+        streams:
+          binder:
+            stateStoreRetry:
+              maxAttempts: 10
+            configuration:
+              state.dir: /tmp
+              commit.interval.ms: 100
+              topology.optimization: all
+              session.timeout.ms: 10000
+              schema.registry.url: http://localhost:8181
+              auto.register.schemas: true
+              default.key.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+              default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+        consumer:
+          key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+          value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+logging:
+  level:
+    ROOT: INFO
+    io.confluent.kafka: ERROR
+    org.apache.kafka: ERROR

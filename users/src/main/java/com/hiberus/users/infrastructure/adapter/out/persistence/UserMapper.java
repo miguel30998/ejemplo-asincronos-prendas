@@ -14,7 +14,7 @@ public class UserMapper {
     }
 
     static UserEntity mapToEntityDomain(User user) {
-        return new UserEntity(user.getId(), user.getName());
+        return new UserEntity(user.getUserId(), user.getName());
     }
     static List<User> mapToDomainList(List<UserEntity> entities){
         List<User> list = new ArrayList<>();

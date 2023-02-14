@@ -1,0 +1,66 @@
+server:
+  port: 8083
+spring:
+  config:
+    activate:
+      on-profile: default
+  application:
+    name: clothingAsync
+    zipkin: http://zipkin:9411
+  datasource:
+    url: jdbc:mysql://${clothing-db:localhost}:3318/clothing-db
+    username: root
+    password: 12345
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  kafka:
+    properties:
+      bootstrap.servers: localhost:9092
+      schema.registry.url: http://localhost:8181
+    producer:
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+
+app:
+  environment:
+
+--- # Testing configuration
+
+server:
+  port: ${random.int(5000,5100)}
+
+spring:
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: false
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: clothing
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: 12345
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    enabled: false
+
+app:
+  environment:

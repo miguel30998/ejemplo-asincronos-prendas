@@ -12,7 +12,6 @@ import java.util.List;
 public class UserPersistenceAdapter implements UserPort {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
 
     @Override
     public boolean createUser(User user) {

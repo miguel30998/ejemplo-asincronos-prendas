@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @EnableEurekaClient
 @EnableTransactionManagement
 @EnableFeignClients

@@ -10,9 +10,9 @@ public interface UserPort {
 
     boolean createUser(User user);
 
-    boolean deleteUser(String dni);
+    boolean deleteUser(String userId);
 
     List<User> getUsers();
 
-    User getUser(String id);
+    User getUser(String userId);
 }

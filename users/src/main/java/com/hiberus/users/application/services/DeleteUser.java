@@ -11,10 +11,10 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class DeleteUser implements DeleteUserUseCase {
-    private final UserPort garmentPort;
+    private final UserPort userPort;
 
     @Override
-    public boolean deleteUser(String dni) {
-        return garmentPort.deleteUser(dni);
+    public boolean deleteUser(String userId) {
+        return userPort.deleteUser(userId);
     }
 }

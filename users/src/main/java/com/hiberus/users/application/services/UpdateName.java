@@ -12,13 +12,13 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class UpdateName implements UpdateNameUseCase {
-    private final UserPort garmentPort;
+    private final UserPort userPort;
 
 
     @Override
     public boolean updateName(User user, String name) {
         user.setName(name);
-        return garmentPort.createUser(user);
+        return userPort.createUser(user);
     }
 
 

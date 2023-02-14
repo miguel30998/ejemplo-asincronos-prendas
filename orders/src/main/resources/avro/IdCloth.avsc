@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "namespace": "com.hiberus.infraestructure",
+  "name": "IdCloth",
+  "fields": [
+    {
+      "name": "IdCloth",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "namespace": "com.hiberus.infraestructure",
+  "name": "TextCloth",
+  "fields": [
+    {
+      "name": "UserID",
+      "type": "string"
+    }
+  ]
+}

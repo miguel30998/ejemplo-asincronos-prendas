@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.hiberus</groupId>
-        <artifactId>ejemplo-sincrono-prendas</artifactId>
+        <artifactId>ejemplo-asincrono-prendas</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -17,6 +17,7 @@
         <spring-cloud.version>2021.0.4</spring-cloud.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>

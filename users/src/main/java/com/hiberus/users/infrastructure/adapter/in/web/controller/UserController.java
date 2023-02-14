@@ -1,6 +1,6 @@
 package com.hiberus.users.infrastructure.adapter.in.web.controller;
 
-import com.hiberus.users.infrastructure.DTO.PurchasesDTO;
+import com.hiberus.users.infrastructure.DTO.BuyerDTO;
 import com.hiberus.users.infrastructure.DTO.UserDTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,7 +39,7 @@ public interface UserController {
 
     @ApiOperation(value = "Obtener usuario por id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Obtenidas con exito"),
+            @ApiResponse(code = 200, message = "Obtenido con exito"),
             @ApiResponse(code = 404, message = "No existe"),
             @ApiResponse(code = 400, message = "Error obteniendo usuario")
 
@@ -66,7 +66,7 @@ public interface UserController {
 
     })
     @PostMapping(value="/users/buy", produces = "application/json")
-    ResponseEntity<String> buy(@RequestBody PurchasesDTO purchasesDTO);
+    ResponseEntity<String> buy(@RequestBody BuyerDTO buyerDTO);
 }
 
 

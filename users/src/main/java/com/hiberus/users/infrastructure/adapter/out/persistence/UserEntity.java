@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="clothing")
+@Table(name="users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
