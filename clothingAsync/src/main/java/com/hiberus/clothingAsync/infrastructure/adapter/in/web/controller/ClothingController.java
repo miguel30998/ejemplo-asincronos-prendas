@@ -48,8 +48,8 @@ public interface ClothingController {
             @ApiResponse(code = 400, message = "Error obteniendo prenda")
 
     })
-    @GetMapping(value="/clothing/garment", produces = "application/json")
-    ResponseEntity<String> getClothing(@QueryParam("name") String name, @QueryParam("size") Size size);
+    @GetMapping(value="/clothing/garment/{garmentId}", produces = "application/json")
+    ResponseEntity<String> getClothing(@RequestParam("garmentId")String garmentId);
 
     @ApiOperation(value="Actualizar cantidad de prenda")
     @ApiResponses({

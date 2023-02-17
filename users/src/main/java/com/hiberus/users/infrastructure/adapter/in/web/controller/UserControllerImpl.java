@@ -7,9 +7,12 @@ import com.hiberus.users.infrastructure.DTO.BuyerDTO;
 import com.hiberus.users.infrastructure.DTO.GarmentDTO;
 import com.hiberus.users.infrastructure.DTO.UserDTO;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class UserControllerImpl implements UserController {
     private final GetGarmentUseCase getGarmentUseCase;
     private Gson gson = new Gson();
 
+    private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
     @Override
     public ResponseEntity<String> createUser(UserDTO userDTO){
         User user;
@@ -39,6 +43,7 @@ public class UserControllerImpl implements UserController {
             }
             createUserUseCase.createUser(user);
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
@@ -53,11 +58,12 @@ public class UserControllerImpl implements UserController {
                 return new ResponseEntity<>(gson.toJson(Not_found), HttpStatus.NOT_FOUND);
             }
             deleteUserUseCase.deleteUser(id);
-
+            logger.info("The user with id "+id+" has been deleted");
         }catch (Exception e){
+            logger.error(e.getMessage());
+
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(gson.toJson("Deleted "+id), HttpStatus.OK);
     }
 
@@ -81,6 +87,7 @@ public class UserControllerImpl implements UserController {
                 return new ResponseEntity<>(gson.toJson(Not_found), HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
@@ -89,14 +96,14 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<String> updateName(UserDTO userDTO) {
         User user;
-        boolean succesfull;
+        boolean successful;
         try {
             user = getUserByIdUseCase.getUser(userDTO.getDni());
             if(user == null){
                 return new ResponseEntity<>(gson.toJson(Not_found), HttpStatus.NOT_FOUND);
             }
-            succesfull = updateNameUseCase.updateName(user,userDTO.getName());
-            if(!succesfull){
+            successful = updateNameUseCase.updateName(user,userDTO.getName());
+            if(!successful){
                 return new ResponseEntity<>(gson.toJson("Error updating"), HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e){
@@ -115,6 +122,7 @@ public class UserControllerImpl implements UserController {
             }
             garmentDTO= getGarmentUseCase.getGarment(buyerDTO);
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(garmentDTO), HttpStatus.OK);

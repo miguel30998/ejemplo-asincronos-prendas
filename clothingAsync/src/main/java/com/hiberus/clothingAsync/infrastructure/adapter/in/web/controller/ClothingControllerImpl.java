@@ -8,6 +8,8 @@ import com.hiberus.clothingAsync.infrastructure.DTO.BuyerDTO;
 import com.hiberus.clothingAsync.infrastructure.DTO.GarmentDTO;
 import com.hiberus.clothingAsync.infrastructure.DTO.GarmentIdentifierDTO;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,7 @@ public class ClothingControllerImpl implements ClothingController {
     private final BuyUseCase buyUseCase;
     private Gson gson = new Gson();
 
+    private final static Logger logger = LoggerFactory.getLogger(ClothingControllerImpl.class);
     @Override
     public ResponseEntity<String> createGarment(GarmentDTO garmentDTO){
         Garment garment;
@@ -43,6 +46,7 @@ public class ClothingControllerImpl implements ClothingController {
             }
             createGarmentUseCase.createGarment(garment);
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
@@ -57,7 +61,9 @@ public class ClothingControllerImpl implements ClothingController {
                 return new ResponseEntity<>(gson.toJson(Not_Found), HttpStatus.NOT_FOUND);
             }
             deleteGarmentUseCase.deleteGarment(garmentDTO.getName(),garmentDTO.getSize());
+            logger.info("The user with id "+garment.getId()+" has been deleted");
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
@@ -70,6 +76,7 @@ public class ClothingControllerImpl implements ClothingController {
         try {
             list = getGarmentsUseCase.getGarments();
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
@@ -77,14 +84,15 @@ public class ClothingControllerImpl implements ClothingController {
     }
 
     @Override
-    public ResponseEntity<String> getClothing(String name, Size size) {
+    public ResponseEntity<String> getClothing(String garmentId) {
         Garment garment;
         try {
-            garment = getGarmentByIDUseCase.getGarment(name+size);
+            garment = getGarmentByIDUseCase.getGarment(garmentId);
             if(garment == null){
                 return new ResponseEntity<>(gson.toJson(Not_Found), HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(garment), HttpStatus.OK);
@@ -104,6 +112,7 @@ public class ClothingControllerImpl implements ClothingController {
                 return new ResponseEntity<>(gson.toJson("Error upgrading"), HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(garment), HttpStatus.OK);
@@ -126,6 +135,7 @@ public class ClothingControllerImpl implements ClothingController {
                 return new ResponseEntity<>(gson.toJson("Error upgrading"), HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(garment), HttpStatus.OK);
@@ -144,6 +154,7 @@ public class ClothingControllerImpl implements ClothingController {
             }
             buyUseCase.buy(garment, buyerDTO.getUserID());
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(gson.toJson(garment), HttpStatus.OK);
